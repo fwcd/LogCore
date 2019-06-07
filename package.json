@@ -1,0 +1,25 @@
+{
+	"name": "logcord",
+	"version": "0.0.1",
+	"description": "Logging framework for JS/TS",
+	"main": "out/index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/fwcd/Logcord.git"
+	},
+	"keywords": [
+		"logging"
+	],
+	"author": "fwcd",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/fwcd/Logcord/issues"
+	},
+	"homepage": "https://github.com/fwcd/Logcord#readme",
+	"dependencies": {
+		"typescript": "^3.4.4"
+	}
+}
