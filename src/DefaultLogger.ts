@@ -1,9 +1,10 @@
 import { LogLevel } from "./LogLevel";
 import { Logger } from "./Logger";
 import { LoggingBackend } from "./LoggingBackend";
+import { LoggerConfiguration } from "./LoggerConfiguration";
 
 /**
- * A default logger implementation that forwards
+ * The default logger implementation that forwards
  * calls to level-specific logging methods to the
  * generic 'log' method and automatically substitutes
  * parameters by their provided arguments.
@@ -12,20 +13,24 @@ import { LoggingBackend } from "./LoggingBackend";
  * 'outputMessage'.
  */
 export class DefaultLogger implements Logger {
-	private backend: LoggingBackend;
+	private config: LoggerConfiguration;
 	
 	/**
 	 * Creates a new logger that outputs
 	 * its messages to the specified backend.
 	 * 
-	 * @param backend The log message sink
+	 * @param config The logger configuration
 	 */
-	constructor(backend: LoggingBackend) {
-		this.backend = backend;
+	constructor(config: LoggerConfiguration) {
+		this.config = config;
 	}
 	
 	private outputMessage(msg: string) {
-		this.backend.output(msg);
+		if (this.config.backend) {
+			this.config.backend.output(msg);
+		} else {
+			throw new Error(`Logger ${this.config.name} can not output messages without a backend`);
+		}
 	}
 	
 	private stringify(arg: any): string {
