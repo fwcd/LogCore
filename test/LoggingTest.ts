@@ -1,7 +1,7 @@
 import "mocha";
 import { expect } from "chai";
-import { DefaultLogger } from "../src/DefaultLogger";
-import { LoggingBackend } from "../src/LoggingBackend";
+import { DefaultLogger } from "../src/logger/DefaultLogger";
+import { LoggingBackend } from "../src/backend/LoggingBackend";
 import { LoggingManager } from "../src/LoggingManager";
 
 describe("LoggingTest", () => {

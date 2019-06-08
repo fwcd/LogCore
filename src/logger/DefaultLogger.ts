@@ -1,8 +1,7 @@
 import { LogLevel } from "./LogLevel";
 import { Logger } from "./Logger";
-import { LoggingBackend } from "./LoggingBackend";
 import { LoggerConfiguration } from "./LoggerConfiguration";
-import { stringContainsAtIndex } from "./StringUtilities";
+import { stringContainsAtIndex } from "../util/StringUtilities";
 
 /**
  * The default logger implementation that forwards

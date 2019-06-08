@@ -1,7 +1,7 @@
-import { Logger } from "./Logger";
-import { DefaultLogger } from "./DefaultLogger";
-import { HierarchialLoggerConfiguration } from "./HierarchialLoggerConfiguration";
-import { LoggerConfiguration } from "./LoggerConfiguration";
+import { Logger } from "./logger/Logger";
+import { DefaultLogger } from "./logger/DefaultLogger";
+import { HierarchialLoggerConfiguration } from "./logger/HierarchialLoggerConfiguration";
+import { LoggerConfiguration } from "./logger/LoggerConfiguration";
 
 /**
  * Creates loggers and manages a configuration

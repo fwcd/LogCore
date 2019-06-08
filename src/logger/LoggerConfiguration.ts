@@ -1,4 +1,4 @@
-import { LoggingBackend } from "./LoggingBackend";
+import { LoggingBackend } from "../backend/LoggingBackend";
 
 /**
  * The settings for a logger. This
