@@ -13,7 +13,7 @@ import { stringContainsAtIndex } from "../util/StringUtilities";
  * 'outputMessage'.
  */
 export class DefaultLogger implements Logger {
-	private config: LoggerConfiguration;
+	readonly config: LoggerConfiguration;
 	private supportedPlaceholders = {
 		"{}": arg => this.stringify(arg),
 		"{?:}": arg => JSON.stringify(arg)

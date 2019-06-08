@@ -44,6 +44,14 @@ export class LoggingManager {
 	}
 	
 	/**
+	 * Creates an unnamed logger that inherits
+	 * the configuration of this manager.
+	 */
+	logger(): Logger {
+		return new DefaultLogger(new HierarchialLoggerConfiguration(this.config));
+	}
+	
+	/**
 	 * Fetches a named logger that inherits
 	 * the configuration of this manager.
 	 * 

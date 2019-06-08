@@ -1,5 +1,6 @@
 import { LoggerConfiguration } from "./LoggerConfiguration";
 import { LogLevel } from "./LogLevel";
+import { LoggingBackend } from "../backend/LoggingBackend";
 
 /**
  * A logging configuration that inherits another
@@ -19,11 +20,7 @@ export class HierarchialLoggerConfiguration implements LoggerConfiguration {
 	}
 	
 	get level(): LogLevel {
-		if (this.local.level != null) {
-			return this.local.level;
-		} else {
-			return this.parent.level;
-		}
+		return (this.local.level != null) ? this.local.level : this.parent.level;
 	}
 	
 	set name(newName: string) {
@@ -31,10 +28,14 @@ export class HierarchialLoggerConfiguration implements LoggerConfiguration {
 	}
 	
 	get name(): string {
-		if (this.local.name != null) {
-			return this.local.name;
-		} else {
-			return this.parent.name;
-		}
+		return (this.local.name != null) ? this.local.name : this.parent.name;
+	}
+	
+	set backend(newBackend: LoggingBackend) {
+		this.local.backend = newBackend;
+	}
+	
+	get backend(): LoggingBackend {
+		return (this.local.backend != null) ? this.local.backend : this.parent.backend;
 	}
 }

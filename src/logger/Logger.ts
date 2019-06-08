@@ -1,3 +1,5 @@
+import { LoggerConfiguration } from "./LoggerConfiguration";
+
 /**
  * A logging interface that consumes
  * parameterized messages of arbitrary
@@ -7,6 +9,8 @@
  * methods that should be delegated to 'log'.
  */
 export interface Logger {
+	readonly config: LoggerConfiguration;
+	
 	/**
 	 * Logs a message at the desired level, automatically
 	 * substituting parameters in the message by the
