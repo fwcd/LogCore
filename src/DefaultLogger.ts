@@ -2,6 +2,7 @@ import { LogLevel } from "./LogLevel";
 import { Logger } from "./Logger";
 import { LoggingBackend } from "./LoggingBackend";
 import { LoggerConfiguration } from "./LoggerConfiguration";
+import { stringContainsAtIndex } from "./StringUtilities";
 
 /**
  * The default logger implementation that forwards
@@ -14,6 +15,10 @@ import { LoggerConfiguration } from "./LoggerConfiguration";
  */
 export class DefaultLogger implements Logger {
 	private config: LoggerConfiguration;
+	private supportedPlaceholders = {
+		"{}": arg => this.stringify(arg),
+		"{?:}": arg => JSON.stringify(arg)
+	};
 	
 	/**
 	 * Creates a new logger that outputs
@@ -33,23 +38,58 @@ export class DefaultLogger implements Logger {
 		}
 	}
 	
+	/**
+	 * Transforms the argument into a string
+	 * resprentation. If a function is passed,
+	 * it is evaluated before converting the
+	 * result to a string.
+	 */
 	private stringify(arg: any): string {
 		if (typeof arg == "function") {
-			return arg();
+			return this.stringify(arg());
 		} else {
 			return "" + arg;
 		}
 	}
 	
 	async log(level: number, msg: string, ...args: any[]): Promise<void> {
-		const parameterPattern = /\{(.*)\}/g;
-		let match = parameterPattern.exec(msg);
 		let result = "";
+		let parameterIndex = 0;
+		let charIndex = 0;
 		
-		while (match) {
-			const isDebugMatch = match[1] === "?:";
-			match = parameterPattern.exec(msg);
+		function validateParameterLength() {
+			if (parameterIndex >= args.length) {
+				throw new Error(`Too few parameters specified in log invocation, message '${msg}' requires more than ${parameterIndex + 1}, only got ${args.length} (${args}) though.`);
+			}
 		}
+		
+		// Iterate character-by-character through the message
+		while (charIndex < msg.length) {
+			let foundPlaceholder = false;
+			
+			// Substitute placeholder if found
+			for (const placeholder in this.supportedPlaceholders) {
+				if (stringContainsAtIndex(msg, placeholder, charIndex)) {
+					validateParameterLength();
+					
+					const stringifier = this.supportedPlaceholders[placeholder];
+					result += stringifier(args[parameterIndex]);
+					
+					parameterIndex++;
+					charIndex += placeholder.length;
+					foundPlaceholder = true;
+					break;
+				}
+			}
+			
+			// If no placeholder was found, just append the character
+			if (!foundPlaceholder) {
+				result += msg.charAt(charIndex);
+				charIndex++;
+			}
+		}
+		
+		this.outputMessage(result);
 	}
 	
 	async error(msg: string, ...args: any[]): Promise<void> {
