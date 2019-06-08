@@ -15,6 +15,11 @@ import { LogLevel } from "./logger/LogLevel";
  * starting point for new loggers.
  */
 export class LoggingManager {
+	/**
+	 * The shared logger configuration.
+	 * Custom loggers can override these
+	 * settings by specifying own values.
+	 */
 	readonly config: LoggerConfiguration;
 	
 	/**
