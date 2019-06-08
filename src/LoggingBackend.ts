@@ -9,5 +9,5 @@ export interface LoggingBackend {
 	 * 
 	 * @param msg The message to output
 	 */
-	output(msg: string): void;
+	output(msg: string): Promise<void>;
 }

@@ -30,9 +30,9 @@ export class DefaultLogger implements Logger {
 		this.config = config;
 	}
 	
-	private outputMessage(msg: string) {
+	private async outputMessage(msg: string): Promise<void> {
 		if (this.config.backend) {
-			this.config.backend.output(msg);
+			await this.config.backend.output(msg);
 		} else {
 			throw new Error(`Logger ${this.config.name} can not output messages without a backend`);
 		}
@@ -89,7 +89,7 @@ export class DefaultLogger implements Logger {
 			}
 		}
 		
-		this.outputMessage(result);
+		await this.outputMessage(result);
 	}
 	
 	async error(msg: string, ...args: any[]): Promise<void> {
